@@ -1,26 +1,17 @@
 <template>
-  <div class="home" :style="{'background-color': '#' + color}">
-    <coin-detail :coin="bitcoin" v-on:change-color="updateColor">
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Maxime vel provident a ab. Commodi culpa ut, saepe veniam,
-          est accusamus aspernatur libero fugit pariatur,
-          impedit officia eveniet expedita voluptate odit!
-        </p>
-    </coin-detail>
-    <!-- <img :src="imageUrl" :alt="title"> -->
-  </div>
+  <section>
+    <px-assets-table></px-assets-table>
+  </section>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-// import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
-import CoinDetail from '@/components/CoinDetail.vue';
+import PxAssetsTable from '@/components/PxAssetsTable.vue';
 
 export default Vue.extend({
   name: 'Home',
   components: {
-    CoinDetail,
+    PxAssetsTable,
   },
   data() {
     return {

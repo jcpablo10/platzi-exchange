@@ -1,0 +1,30 @@
+<template>
+  <header class="shadow w-screen">
+    <nav>
+      <nav class="flex items-center justify-between flex-wrap bg-green-400 p-6">
+        <div class="flex items-center flex-shrink-0 text-white mr-6">
+          <router-link to="/">
+            <px-icon></px-icon>
+            <span class="font-semibold text-xl tracking-tight">PlatziExchange</span>
+          </router-link>
+        </div>
+        <div class="hidden sm:block w-full blok flex-grow lg:flex lg:items-center lg:wauto">
+          <div class="text-sm lg:flex-grow"></div>
+        </div>
+      </nav>
+    </nav>
+  </header>
+</template>
+<script lang="ts">
+import Vue from 'vue';
+import PxIcon from '@/components/PxIcon.vue';
+
+export default Vue.extend({
+  name: 'PxHeader',
+  components: {
+    PxIcon,
+  },
+});
+</script>
+<style>
+</style>
