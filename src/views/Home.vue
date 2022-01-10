@@ -1,12 +1,17 @@
 <template>
   <section>
-    <px-assets-table></px-assets-table>
+    <px-assets-table :assets="assets"></px-assets-table>
   </section>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+/* TS */
+import { Coin } from '@/types/interfaces';
+/* Components */
 import PxAssetsTable from '@/components/PxAssetsTable.vue';
+/* Api functions  */
+import api from './api';
 
 export default Vue.extend({
   name: 'Home',
@@ -34,6 +39,7 @@ export default Vue.extend({
         value: 0 as number,
       },
       color: 'ff0000' as string,
+      assets: [] as Coin[],
     };
   },
   methods: {
@@ -51,6 +57,16 @@ export default Vue.extend({
       console.log('viejo ', viejo);
       console.log('nuevo ', nuevo);
     },
+  },
+  created() {
+    api.get('https://api.coincap.io/v2/assets/', {
+      method: 'GET',
+      redirect: 'follow',
+    })
+      .then((assets) => {
+        console.log(assets);
+        this.assets = assets;
+      });
   },
 });
 </script>
