@@ -11,7 +11,7 @@ import { Coin } from '@/types/interfaces';
 /* Components */
 import PxAssetsTable from '@/components/PxAssetsTable.vue';
 /* Api functions  */
-import api from './api';
+import api from '@/api/api';
 
 export default Vue.extend({
   name: 'Home',

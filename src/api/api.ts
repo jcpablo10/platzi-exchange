@@ -1,5 +1,3 @@
-// import { Coin } from "@/types/interfaces";
-
 const get = async (url: string, options: any) => {
   const response = await fetch(url, options)
     .then((res) => res.json())
