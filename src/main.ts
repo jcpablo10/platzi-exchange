@@ -1,4 +1,6 @@
 import Vue from 'vue';
+/* Filters */
+import '@/filters/filters';
 import App from './App.vue';
 import './registerServiceWorker';
 import router from './router';
