@@ -80,7 +80,6 @@ export default Vue.extend({
         redirect: 'follow',
       })
         .then((assets) => {
-          console.log(assets);
           this.assets = assets;
           this.currentPage = offset + 1;
         });

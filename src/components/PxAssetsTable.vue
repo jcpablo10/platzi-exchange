@@ -30,7 +30,9 @@
           #{{ asset.rank }}
         </td>
         <td>
-          {{  asset.name }}
+          <router-link :to="'coin/' + asset.id">
+            {{  asset.name }}
+          </router-link>
         </td>
         <td>
           {{ asset.priceUsd | dollar }} USD

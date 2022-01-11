@@ -12,3 +12,9 @@ export interface Coin {
   volumeUsd24Hr: string,
   vwap24Hr: string,
 }
+export interface HistoryItem {
+  priceUsd: string,
+  time: number,
+  circulatingSupply: string,
+  date: string,
+}
