@@ -1,7 +1,28 @@
 <template>
-  <section>
-    <px-assets-table :assets="assets"></px-assets-table>
-  </section>
+  <div>
+    <section class="w-full flex justify-center content-center center">
+      <px-assets-table :assets="assets"></px-assets-table>
+    </section>
+    <section class="w-full flex justify-center content-center center">
+      <ul class="flex my-6">
+        <li v-for="(number, idx) in itemsPerPage" :key="number">
+          <button
+            v-if="currentPage != number"
+            @click="getAssets(idx)"
+            class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
+              {{ number }}
+            </button>
+          <button
+            v-else
+            disabled
+            class="bg-gray-400 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
+          >
+              {{ number }}
+            </button>
+        </li>
+      </ul>
+    </section>
+  </div>
 </template>
 
 <script lang="ts">
@@ -40,6 +61,9 @@ export default Vue.extend({
       },
       color: 'ff0000' as string,
       assets: [] as Coin[],
+      itemsPerPage: 10 as number,
+      pages: 10 as number,
+      currentPage: 1 as number,
     };
   },
   methods: {
@@ -48,6 +72,18 @@ export default Vue.extend({
         .split('')
         .reverse()
         .join('');
+    },
+    getAssets(offset: number): void {
+      const apiURL = `https://api.coincap.io/v2/assets/?limit=${this.pages}&offset=${offset * this.pages}`;
+      api.get(apiURL, {
+        method: 'GET',
+        redirect: 'follow',
+      })
+        .then((assets) => {
+          console.log(assets);
+          this.assets = assets;
+          this.currentPage = offset + 1;
+        });
     },
   },
   /* Las propiedades computadas son funciones que siempre devueven un valor */
@@ -59,14 +95,7 @@ export default Vue.extend({
     },
   },
   created() {
-    api.get('https://api.coincap.io/v2/assets/', {
-      method: 'GET',
-      redirect: 'follow',
-    })
-      .then((assets) => {
-        console.log(assets);
-        this.assets = assets;
-      });
+    this.getAssets(0);
   },
 });
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <table>
+  <table class="max-w-xs max-w-sm max-w-md max-w-lg max-w-xl max-w-2xl max-w-3xl max-w-4xl">
     <thead>
       <tr class="bg-gray-100 border-b-2 border-gray-400">
         <th></th>
@@ -21,15 +21,26 @@
       >
         <td>
           <img
+            class="w-8"
             :src="`https://static.coincap.io/assets/icons/${asset.symbol.toLocaleLowerCase()}@2x.png`"
             :alt="asset.name"
           />
         </td>
-        <td>{{asset.rank}}</td>
-        <td>{{asset.name}}</td>
-        <td>{{asset.priceUsd}}</td>
-        <td>{{asset.marketCapUsd}}</td>
-        <td>{{asset.volumeUsd24Hr}}</td>
+        <td>
+          #{{ asset.rank }}
+        </td>
+        <td>
+          {{  asset.name }}
+        </td>
+        <td>
+          {{ asset.priceUsd | dollar }} USD
+        </td>
+        <td>
+          {{ asset.marketCapUsd | dollar }} USD
+        </td>
+        <td :class="asset.changePercent24Hr.includes('-') ? 'text-red-600' : 'text-green-600'">
+          {{ asset.changePercent24Hr | percent }}
+        </td>
         <td class="hidden sm:block"></td>
       </tr>
     </tbody>
