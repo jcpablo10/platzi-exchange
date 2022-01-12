@@ -1,11 +1,15 @@
 import Vue from 'vue';
 /* Filters */
 import '@/filters/filters';
-import App from './App.vue';
+/* Componenets */
+import { VueSpinners } from '@saeris/vue-spinners';
 import './registerServiceWorker';
 import router from './router';
 import store from './store';
 import '@/assets/css/tailwind.css';
+import App from './App.vue';
+
+Vue.use(VueSpinners);
 
 Vue.config.productionTip = false;
 

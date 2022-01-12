@@ -1,7 +1,8 @@
 <template>
   <div>
     <section class="w-full flex justify-center content-center center">
-      <px-assets-table :assets="assets"></px-assets-table>
+      <BarLoader v-if="isLoading"></BarLoader>
+      <px-assets-table v-else :assets="assets"></px-assets-table>
     </section>
     <section class="w-full flex justify-center content-center center">
       <ul class="flex my-6">
@@ -31,13 +32,17 @@ import Vue from 'vue';
 import { Coin } from '@/types/interfaces';
 /* Components */
 import PxAssetsTable from '@/components/PxAssetsTable.vue';
+import { BarLoader } from '@saeris/vue-spinners';
 /* Api functions  */
 import api from '@/api/api';
+/* Vuex */
+import { mapState, mapMutations } from 'vuex';
 
 export default Vue.extend({
   name: 'Home',
   components: {
     PxAssetsTable,
+    BarLoader,
   },
   data() {
     return {
@@ -82,8 +87,15 @@ export default Vue.extend({
         .then((assets) => {
           this.assets = assets;
           this.currentPage = offset + 1;
+        })
+        .catch((error) => {
+          console.log('ERROR!', error);
+        })
+        .finally(() => {
+          this.setLoading(false);
         });
     },
+    ...mapMutations(['setLoading']),
   },
   /* Las propiedades computadas son funciones que siempre devueven un valor */
   /* el nombre */
@@ -92,6 +104,9 @@ export default Vue.extend({
       console.log('viejo ', viejo);
       console.log('nuevo ', nuevo);
     },
+  },
+  computed: {
+    ...mapState(['isLoading']),
   },
   created() {
     this.getAssets(0);
