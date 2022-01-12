@@ -30,8 +30,11 @@
           #{{ asset.rank }}
         </td>
         <td>
-          <router-link :to="'coin/' + asset.id">
-            {{  asset.name }}
+          <router-link
+            :to="'coin/' + asset.id"
+            class="hover:underline text-green-600"
+          >
+            {{  asset.name }} - {{asset.symbol}}
           </router-link>
         </td>
         <td>
@@ -43,7 +46,11 @@
         <td :class="asset.changePercent24Hr.includes('-') ? 'text-red-600' : 'text-green-600'">
           {{ asset.changePercent24Hr | percent }}
         </td>
-        <td class="hidden sm:block"></td>
+        <td class="hidden sm:block">
+          <px-button @custom-click="goToCoinDetail(asset.id)">
+            Ver detalles
+          </px-button>
+        </td>
       </tr>
     </tbody>
   </table>
@@ -51,15 +58,26 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Coin } from '@/types/interfaces';
 /* TS */
+import { Coin } from '@/types/interfaces';
+/* Componentes */
+import PxButton from './PxButton.vue';
 
 export default Vue.extend({
   name: 'PxAssetsTable',
+  components: {
+    PxButton,
+  },
   props: {
     assets: {
       type: Array as () => Coin[],
       default: () => [],
+    },
+  },
+  methods: {
+    goToCoinDetail(id: string): void {
+      this.$router.push({ name: 'coin-detail', params: { id } });
+      // console.log(id);
     },
   },
 });
