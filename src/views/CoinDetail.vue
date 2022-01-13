@@ -78,6 +78,14 @@
         </div>
       </div>
     </template>
+    <div class="container mx-auto px-4">
+      <apexchart
+        width="100%"
+        type="line"
+        :options="chart.options"
+        :series="chart.series">
+      </apexchart>
+    </div>
   </div>
 </template>
 
@@ -87,14 +95,28 @@ import { mapState } from 'vuex';
 import api from '@/api/api';
 /* TS */
 import { Coin, HistoryItem } from '@/types/interfaces';
+/* Componentes */
 
 export default Vue.extend({
   name: 'CoinDetail',
-
   data() {
     return {
       asset: {} as Coin,
       history: [] as HistoryItem[],
+      chart: {
+        options: {
+          chart: {
+            id: 'Detail',
+          },
+          xaxis: {
+            categories: [] as string[],
+          },
+        },
+        series: [{
+          name: 'series-1',
+          data: [] as number[],
+        }],
+      },
     };
   },
 
@@ -136,7 +158,13 @@ export default Vue.extend({
       })
         .then((history) => {
           this.history = history;
+          console.log(this.history);
+          this.fillChart();
         });
+    },
+    fillChart(): void {
+      const values: number[] = this.history.map((item) => parseFloat(item.priceUsd));
+      this.chart.series = [{ name: 'Titulo de prueba', data: values }];
     },
   },
   created() {

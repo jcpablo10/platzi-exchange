@@ -18,3 +18,32 @@ export interface HistoryItem {
   circulatingSupply: string,
   date: string,
 }
+
+export interface ChartLineOptions {
+  chart: {
+    id: string,
+    xaxis: {
+      categories: [number | string][]
+    }
+  }
+}
+
+export interface ChartLineSeries {
+  name: string,
+  data: [string][],
+}
+
+export interface ChartLine {
+  options: {
+    chart: {
+      id: string
+    },
+    xaxis: {
+      categories: Array<number>
+    },
+  },
+  series: [{
+    name: string,
+    data: Array<number>
+  }]
+}
