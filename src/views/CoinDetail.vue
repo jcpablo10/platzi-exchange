@@ -86,6 +86,20 @@
         :series="chart.series">
       </apexchart>
     </div>
+    <h3 class="text-xl my-10">Mejores Ofertas de Cambio</h3>
+      <table>
+        <tr class="border-b" v-for="(market,idx) in markets" :key="`${idx}${market.baseId}`">
+          <td>
+            <b>{{ market.exchangeId }}</b>
+          </td>
+          <td>{{ market.priceUsd }}</td>
+          <td>{{ market.baseSymbol }} / {{ market.quoteSymbol }}</td>
+          <td>
+            <px-button />
+            <a class="hover:underline text-green-600" target="_blanck"></a>
+          </td>
+        </tr>
+      </table>
   </div>
 </template>
 
@@ -94,15 +108,20 @@ import Vue from 'vue';
 import { mapState } from 'vuex';
 import api from '@/api/api';
 /* TS */
-import { Coin, HistoryItem } from '@/types/interfaces';
+import { Coin, HistoryItem, Market } from '@/types/interfaces';
 /* Componentes */
+import PxButton from '@/components/PxButton.vue';
 
 export default Vue.extend({
   name: 'CoinDetail',
+  components: {
+    PxButton,
+  },
   data() {
     return {
       asset: {} as Coin,
       history: [] as HistoryItem[],
+      markets: [] as Market[],
       chart: {
         options: {
           chart: {
@@ -166,24 +185,24 @@ export default Vue.extend({
       const values: number[] = this.history.map((item) => parseFloat(item.priceUsd));
       this.chart.series = [{ name: 'Titulo de prueba', data: values }];
     },
+    getMarkets(coin: string) {
+      const apiUrl = `${this.URL}${coin}/markets?limit=5`;
+      api.get(apiUrl, {
+        method: 'GET',
+        redirect: 'follow',
+      })
+        .then((markets) => {
+          console.log(markets);
+          this.markets = markets;
+        });
+    },
   },
   created() {
     const { id } = this.$route.params;
     this.getAsset(id);
     this.getHistory(id);
+    this.getMarkets(id);
   },
-  // methods: {
-  //   getCoin() {
-  //     const id = this.$route.params.id
-
-  //     Promise.all([api.getAsset(id), api.getAssetHistory(id)]).then(
-  //       ([asset, history]) => {
-  //         this.asset = asset
-  //         this.history = history
-  //       }
-  //     )
-  //   },
-  // }
 });
 </script>
 

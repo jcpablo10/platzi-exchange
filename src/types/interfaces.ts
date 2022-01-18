@@ -28,6 +28,17 @@ export interface ChartLineOptions {
   }
 }
 
+export interface Market {
+  baseId: string,
+  baseSymbol: string,
+  exchangeId: string,
+  priceUsd: string,
+  quoteId: string,
+  quoteSymbol: string,
+  volumePercent: any,
+  volumeUsd24Hr: any,
+}
+
 export interface ChartLineSeries {
   name: string,
   data: [string][],
