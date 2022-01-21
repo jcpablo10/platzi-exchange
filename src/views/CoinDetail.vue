@@ -156,33 +156,6 @@ export default Vue.extend({
     },
   },
   methods: {
-    getAsset(id: string): void {
-      const apiURL = `${this.URL}${id}`;
-      // Promise.all([api.get()]);
-      api.get(apiURL, {
-        method: 'GET',
-        redirect: 'follow',
-      })
-        .then((asset) => {
-          this.asset = asset;
-        });
-    },
-    getHistory(id: string): void {
-      const now = new Date();
-      const end = now.getTime();
-      now.setDate(now.getDate() - 1);
-      const start = now.getTime();
-      const apiURL = `${this.URL}${id}/history?interval=h1&start=${start}&end=${end}`;
-      api.get(apiURL, {
-        method: 'GET',
-        redirect: 'follow',
-      })
-        .then((history) => {
-          this.history = history;
-          // console.log(this.history);
-          this.fillChart();
-        });
-    },
     setHistoryRange(): void {
       const now = new Date();
       this.historyEnd = now.getTime();
@@ -194,11 +167,23 @@ export default Vue.extend({
       this.chart.series = [{ name: 'Titulo de prueba', data: values }];
     },
     getCoinDetail(coin: string) {
-      Promise.all([api.getHistory(coin, this.historyStart, this.historyEnd), api.getMarkets(coin)])
-        .then(([history, markets]) => {
+      Promise.all([
+        api.getAsset(coin),
+        api.getHistory(coin, this.historyStart, this.historyEnd),
+        api.getMarkets(coin),
+        api.getAsset2(coin),
+      ])
+        .then(([
+          asset,
+          history,
+          markets,
+          asset2,
+        ]) => {
+          this.asset = asset;
           this.history = history;
           this.fillChart();
           this.markets = markets;
+          console.log(asset2);
         })
         .catch(() => console.log('Falló'))
         .finally(() => {
@@ -210,8 +195,6 @@ export default Vue.extend({
     const { id } = this.$route.params;
     this.setHistoryRange();
     this.getCoinDetail(id);
-    this.getAsset(id);
-    // this.getHistory(id);
   },
 });
 </script>
